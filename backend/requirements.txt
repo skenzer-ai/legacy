@@ -1,0 +1,24 @@
+# Core LangChain 2025 Framework
+langchain-core
+langchain-community
+langgraph
+langsmith
+langchain-openai
+langchain-anthropic
+langchain-huggingface
+
+# MCP (Model Context Protocol) Integration
+langchain-mcp-adapters
+mcp
+
+# FastAPI Backend
+fastapi
+uvicorn
+
+# Document Processing & Retrieval
+faiss-cpu
+unstructured
+sentence-transformers
+scikit-learn
+nltk
+py-roaringbitmap

@@ -1,0 +1,58 @@
+# Core LangChain 2025 Framework
+langchain-core
+langchain-community
+langgraph
+langsmith
+langchain-openai
+langchain-anthropic
+langchain-huggingface
+
+# MCP (Model Context Protocol) Integration
+langchain-mcp-adapters
+mcp
+
+# FastAPI Backend
+fastapi
+uvicorn[standard]
+langserve[all]
+pydantic
+python-multipart
+
+# Database & Vector Storage
+sqlalchemy
+psycopg2-binary
+alembic
+pgvector
+faiss-cpu
+redis
+
+# AI/ML Stack
+sentence-transformers
+transformers
+torch
+accelerate
+peft
+datasets
+
+bitsandbytes
+# Document Processing
+pypdf
+python-docx
+beautifulsoup4
+markdown
+
+# Async & Utilities
+httpx
+aiofiles
+python-dotenv
+loguru
+
+# Development Tools
+pytest
+pytest-asyncio
+black
+isort
+mypy
+
+# Frontend Development (Node.js dependencies in separate package.json)
+# React + TypeScript workflow builder will be in /frontend directory
