@@ -4,233 +4,377 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 ## Repository Overview
 
-This is a production-ready AI-powered ITSM automation platform built with LangChain 2025 that provides three core capabilities:
+This is a **production-ready AI-powered ITSM automation platform** built with modern full-stack architecture featuring comprehensive workflow orchestration, visual interfaces, and enterprise-grade capabilities. The platform provides sophisticated multi-agent automation for Infraon ITSM operations with advanced visual workflow design and real-time collaboration.
 
-1. **Intelligent Q&A**: Answer general questions about the Infraon platform using user guide docs and API documentation
-2. **Automated Task Execution**: Perform complex operations by reasoning through and calling relevant intermediary APIs (e.g., calculating mean time to ticket resolution over 6 months by fetching historical data and performing calculations)
-3. **Workflow Automation**: Create and execute multi-step workflows for complex administrative tasks (e.g., bulk user creation, role management, configuration changes, reminder setup) where users provide details in any format and the agent fills in and executes the workflow
+### Core Platform Capabilities
 
-The system features a hybrid retrieval foundation and includes a fully implemented multi-agent system with the **Augment Agent** for intelligent Q&A capabilities.
+1. **Intelligent Q&A & Chat**: Advanced conversational AI with context-aware responses using hybrid retrieval and multi-agent reasoning
+2. **Visual Workflow Orchestration**: Complete workflow state machine system with visual canvas-based design and real-time execution monitoring  
+3. **Advanced API Studio**: Live API testing with workflow integration, real-time collaboration, and comprehensive validation
+4. **Service Knowledge Graph**: Interactive exploration of service relationships, dependencies, and API mappings
+5. **Enterprise Integration**: Production-ready authentication, role-based access, background processing, and comprehensive monitoring
+
+### System Architecture Status
+
+**✅ COMPLETED - Production Foundation**:
+- **Phase 1**: Core infrastructure with FastAPI Users authentication, PostgreSQL/SQLite database, Redis caching, role-based access control
+- **Phase 2**: Advanced application architecture with workflow state machines, event-driven pub/sub, WebSocket real-time communication, progress tracking, multi-level caching
+- **Frontend Milestones 1-4**: Complete React 18 + TypeScript frontend with service dashboard, intelligent chat interface, live API testing studio, admin panels
+
+**🚧 IN DEVELOPMENT**:
+- **Man-O-Man System**: Service registry management with intelligent API tier classification and procedural validation
+- **Advanced Visual Interfaces**: Infinity canvas foundation for node-based workflow design
+
+**🔮 UPCOMING - Phase 3 Advanced Features**:
+- **Proxie Agent**: Enhanced workflow integration with ML-powered API selection
+- **Infinity Canvas**: Full visual workflow designer with drag-and-drop nodes and real-time collaboration
+- **Knowledge Graph Explorer**: Interactive visualization of service relationships and API dependencies
+- **Advanced API Studio**: Canvas-based testing with workflow context and multi-user collaboration
 
 ## Key Commands
 
-### Interactive CLI (Recommended)
+### Primary Development Server
 ```bash
-# Launch comprehensive interactive testing
+# Main backend server (Enhanced Phase 2 Architecture)
+uvicorn app.main:app --reload --port 8001
+
+# Frontend development server  
+cd ../frontend && npm run dev
+
+# Interactive CLI testing (comprehensive system validation)
 python interactive_test.py
 ```
 
-### Development
+### Environment Setup & Management
 ```bash
-# Build retrieval indices (required before first use)
-python src/scripts/build_indices.py
+# Activate Python environment
+pyenv activate augment-env
 
-# Main retrieval server
-uvicorn src.main:app --reload
+# Database migrations
+alembic upgrade head
 
-# Backend API server (legacy implementation)
-cd backend && uvicorn app.main:app --reload
+# Create admin user
+python create_admin.py
 
-# Run all tests
-python -m pytest
-
-# Run specific test suites
-python -m pytest tests/test_retrieval_v2.py
-python -m pytest tests/test_build_indices.py
+# Build and verify retrieval indices
+python src/scripts/build_indices.py --output_dir dist
 ```
 
-### Index Management
+### Development Workflows
 ```bash
-# Build indices with custom configuration
-python src/scripts/build_indices.py --api_spec_path user_docs/infraon-api.json --synonyms_path src/retrieval/synonyms.json --output_dir dist
+# Full stack development
+uvicorn app.main:app --reload --port 8001 & cd ../frontend && npm run dev
 
-# Rebuild test indices
-python src/scripts/build_indices.py --output_dir test_dist
+# Backend testing (all Phase 2 systems)
+python test_phase2_systems.py
+python test_complete_cache_system.py
+
+# Agent framework testing
+python tests/test_augment_agent.py
+python tests/test_react_strategy.py
+python tests/test_agent_api.py
+
+# Man-O-Man development testing
+python tests/test_classification_api.py
+python tests/test_definition_agent.py
+python tests/test_validation_workflow_integration.py
 ```
 
-### API Operations
+### Production Operations
 ```bash
-# Process documents (backend API)
-curl -X POST "http://localhost:8000/api/v1/process/document"
+# System health and monitoring
+curl http://localhost:8001/health
+curl http://localhost:8001/api/v1/system/stats
 
-# Process API specifications
-curl -X POST "http://localhost:8000/api/v1/process/api"
+# User management
+curl -X POST http://localhost:8001/api/v1/auth/register
+curl -X POST http://localhost:8001/api/v1/users/
 
-# Test hybrid retrieval
-curl -G "http://localhost:8000/api/v1/retrieve/fuse" --data-urlencode "query=create incident ticket"
-```
-
-### Agent Operations
-```bash
-# Query the Augment Agent
-curl -X POST "http://localhost:8000/api/v1/agents/augment" \
-  -H "Content-Type: application/json" \
-  -d '{"query": "How do I create an incident ticket?", "context": {"user_role": "admin"}}'
-
-# Get agent information and configuration
-curl "http://localhost:8000/api/v1/agents/augment/info"
-
-# Update agent configuration (switch to ReAct strategy)
-curl -X POST "http://localhost:8000/api/v1/agents/augment/config" \
-  -H "Content-Type: application/json" \
-  -d '{"strategy": "react", "max_reasoning_loops": 3}'
-
-# Clear agent memory
-curl -X POST "http://localhost:8000/api/v1/agents/augment/memory/clear"
-
-# Set session data
-curl -X POST "http://localhost:8000/api/v1/agents/augment/session" \
-  -H "Content-Type: application/json" \
-  -d '{"user_role": "admin", "department": "IT"}'
-```
-
-### Agent Testing
-```bash
-# Run agent framework tests
-pyenv activate augment-env && python tests/test_agent_framework.py
-
-# Run specific agent tests
-pyenv activate augment-env && python tests/test_augment_agent.py
-pyenv activate augment-env && python tests/test_react_strategy.py
-pyenv activate augment-env && python tests/test_agent_api.py
+# Task queue monitoring
+curl http://localhost:8001/api/v1/tasks/stats
 ```
 
 ## Architecture Overview
 
-### Multi-Agent System
-The system includes a fully implemented multi-agent framework with the **Augment Agent** currently deployed:
+### Full-Stack Production Architecture
 
-**Implemented Agents**:
-1. **Augment Agent** (`backend/app/core/agents/augment/`): Intelligent Q&A agent for Infraon platform
-   - Supports Direct and ReAct reasoning strategies
-   - Integrates with hybrid retrieval system
-   - Provides reasoning chain transparency
-   - Memory management and session support
+**Frontend Foundation** (`frontend/`):
+- **React 18 + TypeScript**: Modern component architecture with strict typing
+- **Tailwind CSS**: Utility-first styling with custom design system
+- **Zustand State Management**: Lightweight, TypeScript-first state management
+- **React Router**: Single-page application with protected routes
+- **Vite Build System**: Fast development and optimized production builds
 
-**Future Agent Expansion**:
-2. **Execution Agent**: Complex operations by chaining API calls and data processing
-3. **Workflow Agent**: Multi-step administrative workflows with dynamic parameter filling
+**Backend Foundation** (`backend/app/`):
+- **FastAPI**: Async web framework with automatic API documentation and validation
+- **SQLAlchemy 2.0**: Modern async ORM with hybrid PostgreSQL/SQLite support
+- **FastAPI Users**: Production-ready authentication with JWT and role-based access
+- **Pydantic v2**: Advanced data validation and serialization
+- **Alembic**: Database migrations with environment-specific configurations
 
-### Dual Implementation Structure
+### Phase 2 Advanced Architecture (✅ COMPLETED)
 
-**Main Implementation** (`/src/`): Production-ready hybrid retrieval system
-- `src/retrieval/retriever.py` - KnowledgeRetriever orchestrating multi-modal search
-- `src/retrieval/api_retriever.py` - API-specific retrieval with FAISS and roaring bitmaps  
-- `src/retrieval/document_retriever.py` - Document retrieval for user guides
-- `src/scripts/build_indices.py` - Offline index building pipeline
-- `src/main.py` - FastAPI server with `/search` endpoint
+**Workflow Engine** (`app/core/workflow/`):
+- **State Machine System**: Complete workflow orchestration with async execution
+- **Event-Driven Progression**: Workflow state transitions triggered by events
+- **Parallel & Sequential Processing**: Multi-step workflows with dependency management
+- **Persistent State Management**: Database-backed workflow execution tracking
+- **Real-time Monitoring**: WebSocket-based progress updates and notifications
 
-**Backend Implementation** (`/backend/`): Structured API with processing pipeline
-- `backend/app/main.py` - FastAPI app with versioned API routes
-- `backend/app/api/v1/endpoints/` - Separate endpoints for processing and retrieval
-- `backend/app/core/state.py` - ProcessingStateManager for tracking index readiness
-- `backend/app/core/retrieval/fusion/fuser.py` - Result fusion and ranking
+**Event-Driven Pub/Sub** (`app/core/events/`):
+- **Redis-Backed Publisher**: High-performance event publishing with persistence
+- **Flexible Subscriptions**: Pattern-based event filtering and routing  
+- **Event History**: Complete audit trail with correlation tracking
+- **Real-time Notifications**: WebSocket integration for live event streaming
+- **Batch Processing**: Optimized bulk event handling for performance
 
-### Hybrid Retrieval Engine
-The retrieval foundation implements multi-modal search fusion:
-- **FAISS Vector Search**: Semantic similarity using BGE-M3 and CodeBERT embeddings
-- **TF-IDF Scoring**: Traditional keyword-based retrieval with ITSM domain synonym expansion
-- **Roaring Bitmap Index**: High-performance boolean retrieval for exact token matches
-- **Intelligent Fusion**: Combines and deduplicates results across all retrieval methods
+**WebSocket Real-Time Communication** (`app/core/websocket/`):
+- **Connection Management**: Lifecycle management with authentication
+- **Room-Based Communication**: User groups and workflow-specific channels
+- **Message Routing**: Type-safe message handling with validation
+- **Presence Tracking**: User activity and connection health monitoring
+- **Integration Hooks**: Deep integration with workflow engine and event system
 
-### ITSM Domain Integration
-The platform is specifically designed for Infraon ITSM automation:
-- **Domain Knowledge**: Processes Infraon user guides and API specifications
-- **ITSM Workflows**: Supports ticket/request/change/problem/release management
-- **Administrative Tasks**: Handles user management, role assignment, configuration changes
-- **Synonym Expansion**: ITSM-specific terminology mapping in `src/retrieval/synonyms.json`
+**Advanced Caching Strategy** (`app/core/cache/`):
+- **Multi-Level Hierarchy**: L1 (memory) + L2 (Redis) with intelligent promotion
+- **Smart Invalidation**: Tag-based and dependency-aware cache clearing
+- **Performance Monitoring**: Cache hit rates and performance analytics
+- **Circuit Breaker**: Automatic fallback for cache failures
+- **Compression & Encryption**: Optimized storage with security features
 
-## Agent Framework
+**Progress Tracking System** (`app/core/progress/`):
+- **Multi-Step Operations**: Granular progress tracking with weighted steps
+- **ETA Calculation**: Intelligent time estimation based on historical data
+- **Real-time Updates**: WebSocket integration for live progress monitoring
+- **Error Handling**: Comprehensive error capture and recovery mechanisms
+- **Performance Metrics**: Throughput tracking and optimization insights
 
-### Base Agent Architecture
-- `backend/app/core/agents/base/agent.py` - BaseAgent abstract class with common functionality
-- `backend/app/core/agents/base/config.py` - BaseAgentConfig with shared configuration options
-- `backend/app/core/agents/base/memory.py` - AgentMemory for conversation context management
-- `backend/app/core/agents/base/strategy.py` - AgentStrategy pattern for pluggable reasoning
-- `backend/app/core/agents/base/response.py` - Structured response models and reasoning steps
+### Frontend Component Architecture (✅ COMPLETED)
 
-### Augment Agent Implementation
-- `backend/app/core/agents/augment/agent.py` - AugmentAgent main implementation
-- `backend/app/core/agents/augment/config.py` - Agent-specific configuration management
-- `backend/app/core/agents/augment/strategies/` - Direct and ReAct reasoning strategies
-- `backend/app/core/agents/augment/prompts/` - Template system for customizable prompts
+**Service Dashboard** (`frontend/src/pages/Dashboard.tsx`):
+- **Service Grid/List Views**: Flexible service browsing with filtering and search
+- **Real-time Status**: Live service health and availability monitoring
+- **Quick Actions**: Rapid access to common operations and testing
+- **Analytics Integration**: Usage metrics and performance dashboards
 
-### Agent Features
-- **Strategy Pattern**: Switch between Direct (single-pass) and ReAct (iterative reasoning) strategies
+**Intelligent Chat Interface** (`frontend/src/components/chat/`):
+- **Context-Aware Conversations**: Service-specific AI responses with reasoning chains
+- **Memory Management**: Persistent conversation history with token optimization  
+- **Multi-Strategy Support**: Direct and ReAct reasoning modes
+- **Source Attribution**: Links to documentation and API specifications
+- **Real-time Streaming**: Live response generation with thinking transparency
+
+**Live API Testing Studio** (`frontend/src/components/testing/`):
+- **Dynamic Form Generation**: Auto-generated forms from OpenAPI specifications
+- **Real-time Execution**: Live API calls with comprehensive error handling
+- **Syntax Highlighting**: Request/response display with JSON/XML formatting
+- **Test History**: Persistent testing sessions with result comparison
+- **Workflow Integration**: API tests as workflow building blocks
+
+**Admin Dashboard** (`frontend/src/components/admin/`):
+- **User Management**: Complete CRUD operations with role assignment
+- **Service Registry**: Visual management of API services and classifications
+- **System Monitoring**: Real-time metrics and health dashboards
+- **Configuration Management**: Dynamic settings with validation
+
+### Integration & Infrastructure
+
+**Authentication & Authorization** (`app/core/auth.py`):
+- **FastAPI Users Integration**: Production-ready user management
+- **Role-Based Access Control**: Admin, Developer, Viewer roles with granular permissions
+- **JWT Token Management**: Secure token generation and validation
+- **Session Management**: Redis-backed sessions with automatic cleanup
+
+**Database Architecture** (`app/models/`):
+- **User Management**: Complete user profiles with role assignments
+- **Service Registry**: Comprehensive API service metadata and classifications
+- **Workflow Definitions**: State machine definitions with step configurations
+- **Event History**: Complete audit trail with correlation tracking
+- **Progress Records**: Multi-step operation tracking with metadata
+
+**Background Task Processing** (`app/core/tasks/`):
+- **Redis Queue**: High-performance task queue with worker management
+- **Async Execution**: Non-blocking task processing with progress tracking
+- **Retry Logic**: Configurable retry policies with exponential backoff
+- **Monitoring**: Task statistics and worker health monitoring
+
+**Configuration Management** (`app/core/config.py`):
+- **Environment-Specific**: Development (SQLite) and production (PostgreSQL) configurations
+- **Proxy Integration**: CORS bypass for external API integration
+- **Settings Validation**: Pydantic-based configuration with type safety
+- **Runtime Updates**: Dynamic configuration changes without restart
+
+## Agent Framework (✅ PRODUCTION-READY)
+
+### Base Agent Architecture (`app/core/agents/base/`)
+- **Abstract Base Class**: Common functionality with strategy pattern support
 - **Memory Management**: Token-aware conversation history with automatic trimming
-- **Template System**: File-based prompt templates (default, technical) for different use cases
-- **Configuration Management**: Runtime configuration updates for strategy, model, and parameters
-- **Reasoning Transparency**: Complete thought process tracking with reasoning chains
-- **Source Attribution**: Links responses to specific documents and API specifications
+- **LLM Integration**: Multi-provider support with OpenRouter integration
+- **Configuration Management**: Runtime configuration updates with validation
+- **Response Models**: Structured responses with reasoning chain tracking
+
+### Augment Agent Implementation (`app/core/agents/augment/`)
+- **Production Deployment**: Fully operational Q&A agent for Infraon platform
+- **Strategy Switching**: Direct (single-pass) and ReAct (iterative reasoning) modes
+- **Hybrid Retrieval Integration**: BGE-M3 + CodeBERT embeddings with TF-IDF fusion
+- **Template System**: Customizable prompt templates (default, technical)
 - **Session Management**: Persistent user context and preferences
+- **Source Attribution**: Complete traceability to source documents and APIs
 
-### Agent API Endpoints
-- `POST /api/v1/agents/augment` - Main query endpoint with structured request/response
-- `GET /api/v1/agents/augment/info` - Agent configuration and status information
+### Agent API Endpoints (`app/api/v1/endpoints/agents.py`)
+- `POST /api/v1/agents/augment` - Main query endpoint with structured responses
+- `GET /api/v1/agents/augment/info` - Agent configuration and status
 - `POST /api/v1/agents/augment/config` - Dynamic configuration updates
-- `POST /api/v1/agents/augment/memory/clear` - Clear conversation history
-- `GET /api/v1/agents/augment/memory/context` - Retrieve current conversation context
-- `POST /api/v1/agents/augment/session` - Set session-specific data
-- `GET /api/v1/agents/augment/templates` - List available prompt templates
+- `POST /api/v1/agents/augment/memory/clear` - Conversation history management
+- `GET /api/v1/agents/augment/templates` - Available prompt templates
 
-## Key Components
+## Man-O-Man Service Registry System (🚧 IN DEVELOPMENT)
 
-### Processing Pipeline
-- `src/processing/tokenizers.py` - CanonicalTokenizer with domain-specific preprocessing
-- `src/processing/config.py` - Pydantic configuration with environment variable support
-- `backend/app/core/processing/` - Dual indexers for documents and API specifications
+### System Overview (`app/core/manoman/`)
+The **Man-O-Man** system provides intelligent API service classification, validation, and registry management for the unified platform. It processes complex API specifications and creates enhanced metadata for optimal agent operation.
 
-### State Management
-- `backend/app/core/state.py` - ProcessingStateManager tracking index build status
-- Singleton pattern with disk persistence for processing state
-- Status tracking: UNPROCESSED → PROCESSING → READY → ERROR
+**Development Reference**: All development follows specifications in `MAN-O-MAN_DEVELOPMENT_PLAN.md`
 
-### Data Sources
-- `user_docs/infraon_user_guide.md` - Comprehensive Infraon platform documentation
-- `user_docs/infraon-api.json` - Complete OpenAPI specification for Infraon APIs
-- `src/retrieval/synonyms.json` - ITSM domain synonym mappings
+### Core Components
 
-## Dependencies and Setup
+**Classification Engine** (`engines/`):
+- **JSON Parser**: Advanced OpenAPI specification parsing with schema extraction
+- **Service Classifier**: Intelligent grouping of APIs into logical services  
+- **Tier Classification**: Automatic CRUD vs specialized operation classification
+- **Conflict Detection**: Keyword overlap detection and resolution
 
-### Core Framework Stack
-- **LangChain 2025**: Multi-agent orchestration with LangGraph, LangSmith integration
-- **FastAPI**: Async web framework with automatic API documentation
-- **Pydantic**: Data validation and settings management
+**Interactive Agents** (`agents/`):
+- **Definition Agent**: Conversational service metadata enhancement
+- **Testing Agent**: Procedural API validation with Create-Read-Delete cycles
+- **Session Management**: Progress tracking for complex definition workflows
 
-### AI/ML Dependencies  
-- **sentence-transformers**: BGE-M3 and CodeBERT embedding models
-- **transformers**: Hugging Face model ecosystem
-- **torch**: PyTorch for deep learning computations
-- **accelerate**: Optimized model loading and inference
+**Validation Framework** (`api/validation.py`):
+- **Procedural Testing**: Real API lifecycle validation
+- **Schema Discovery**: Live API behavior vs documentation comparison
+- **Cleanup Automation**: Intelligent test data cleanup with manual fallback
+- **Registry Enhancement**: Validated metadata integration
 
-### Search Infrastructure
-- **FAISS**: High-performance vector similarity search
-- **scikit-learn**: TF-IDF vectorization and traditional ML
-- **pyroaring**: Compressed bitmap indexing for fast boolean operations
+## Advanced Roadmap - Phase 3 Features (🔮 UPCOMING)
 
-### Development Tools
-- **pytest**: Test framework with async support
-- **uvicorn**: ASGI server for development and production
+### Infinity Canvas Architecture
+**Visual Workflow Designer**:
+- **Node-Based Interface**: Drag-and-drop workflow creation with rich node libraries
+- **Real-time Collaboration**: Multi-user editing with conflict resolution
+- **Template System**: Pre-built workflow patterns for common operations
+- **State Visualization**: Live workflow execution monitoring on canvas
 
-## Testing Strategy
+**Knowledge Graph Explorer**:
+- **Interactive Visualization**: Service relationship mapping with zoom/pan/search
+- **Dependency Analysis**: API interdependency tracking and impact analysis
+- **Visual Navigation**: Click-to-explore from services to APIs to documentation
+- **Context Integration**: Seamless transition between graph and workflow design
 
-### Agent Framework Testing
-- `tests/test_agent_framework.py` - Base agent framework functionality and imports
-- `tests/test_augment_agent.py` - Comprehensive AugmentAgent testing with mocked retrievers
-- `tests/test_react_strategy.py` - ReAct strategy implementation and reasoning chain validation
-- `tests/test_agent_api.py` - FastAPI endpoint testing with full request/response validation
+### Enhanced Agent Integration
+**Proxie Agent**:
+- **Workflow Context**: Enhanced API selection with workflow state awareness
+- **ML-Powered Classification**: Advanced service selection using trained models  
+- **Performance Optimization**: Sub-300ms API selection with >90% accuracy
+- **Visual Integration**: Canvas-based agent interaction and feedback
 
-### Index Validation
-- `test_build_indices.py` - Validates offline index creation, file integrity, and data loading
-- Covers bitmap index, TF-IDF matrix, and full-text cache generation
+**Advanced API Studio**:
+- **Canvas-Based Testing**: API testing integrated with workflow design
+- **Collaborative Sessions**: Real-time multi-user API testing and validation
+- **Workflow Test Integration**: API tests as reusable workflow components
+- **Advanced Visualization**: Request/response flow visualization on canvas
 
-### End-to-End Retrieval
-- `test_retrieval_v2.py` - Complete retrieval pipeline testing with isolated test indices
-- Tests fusion of API and document results, validates specific query patterns
-- Includes accuracy feedback collection for continuous improvement
+### Enterprise Features
+**Advanced Analytics**:
+- **Usage Pattern Analysis**: Service utilization and optimization insights
+- **Performance Monitoring**: Real-time system health and bottleneck detection
+- **Predictive Analytics**: Workflow optimization suggestions based on usage patterns
 
-### Interactive Testing
-- `interactive_test.py` - Manual testing interface with index rebuilding and accuracy feedback
-- Supports real-time query testing and result evaluation
+**Scalability Enhancements**:
+- **Microservice Architecture**: Component-based scaling for high-load scenarios
+- **Event Sourcing**: Complete system state reconstruction and audit capabilities
+- **Advanced Caching**: Distributed caching with intelligent preloading
 
-All tests use isolated directories and proper PYTHONPATH setup to avoid conflicts with production indices. Agent tests include comprehensive mocking of retrieval systems and validation of reasoning chains, memory management, and API responses.
+## Development Environment
+
+### SSH Remote Development
+- **Server**: `ssh -p 2222 heramb@ssh.skenzer.com`
+- **Environment**: Python 3.13.5 with pyenv (augment-env)
+- **Ports**: 8001 (backend), 3000 (frontend), additional ports 3001, 2222 available
+- **Database**: SQLite for development, PostgreSQL/Redis available for production
+
+### Technology Stack
+**Frontend**:
+- React 18, TypeScript, Tailwind CSS, Vite, Zustand, React Router
+- Future: Canvas libraries for infinity canvas, real-time collaboration frameworks
+
+**Backend**:
+- FastAPI, SQLAlchemy 2.0, FastAPI Users, Pydantic v2, Alembic, Redis
+- Phase 2: Advanced workflow engine, event system, WebSocket manager, multi-level caching
+
+**AI/ML**:
+- sentence-transformers (BGE-M3, CodeBERT), transformers, torch, FAISS
+- LLM Integration: OpenRouter API with multiple model support
+
+**Infrastructure**:
+- Database: SQLAlchemy with SQLite/PostgreSQL support
+- Caching: Redis with intelligent multi-level strategies
+- Task Queue: Redis-based background processing
+- Real-time: WebSocket with room management and authentication
+
+### Testing Strategy
+**Frontend Testing**:
+- Component testing with React Testing Library
+- Integration testing for service dashboard and chat interface
+- End-to-end testing for complete user workflows
+
+**Backend Testing**:
+- Agent framework comprehensive testing (`tests/test_*.py`)
+- Phase 2 system validation (`test_phase2_systems.py`)
+- Man-O-Man development validation (`tests/test_*_agent.py`)
+- API endpoint testing with authentication and role validation
+
+**Integration Testing**:
+- Full-stack workflow testing from frontend to backend
+- Real-time communication testing (WebSocket + events)
+- External API integration testing (Infraon proxy)
+
+## Success Metrics & Performance
+
+### Current System Performance
+- **Backend Startup**: <10 seconds with full Phase 2 system initialization
+- **Frontend Load**: <2 seconds initial page load with service data
+- **API Response**: <200ms average for authenticated endpoints
+- **Real-time Updates**: <50ms WebSocket message delivery
+- **Cache Performance**: >95% hit rate for frequently accessed data
+
+### Phase 3 Target Metrics
+- **API Selection**: <300ms with >90% accuracy (Proxie Agent)
+- **Visual Workflow**: <1 second canvas rendering for complex workflows
+- **Collaboration**: <100ms conflict resolution for multi-user editing
+- **Knowledge Graph**: <500ms for service relationship query and visualization
+
+## Development Guidelines
+
+### Code Standards
+- **TypeScript**: Strict typing for all frontend components
+- **Python**: Type hints and Pydantic models for all backend code
+- **Testing**: Comprehensive test coverage for all new features
+- **Documentation**: Inline documentation and architectural decision records
+
+### Workflow Integration Patterns
+- **Event-Driven**: All system interactions use event publishing for loose coupling
+- **State Management**: Centralized state with clear update patterns
+- **Real-time Updates**: WebSocket integration for live system monitoring
+- **Error Handling**: Comprehensive error capture with user-friendly messaging
+
+### Future Development
+- **Canvas Integration**: All new features consider visual workflow integration
+- **Collaboration**: Multi-user support built into new feature design
+- **Performance**: Sub-second response targets for all user interactions
+- **Scalability**: Component-based architecture for horizontal scaling
+
+When developing new features:
+1. **Follow Phase 2 Architecture**: Use event system, caching, and WebSocket patterns
+2. **Consider Visual Integration**: How features integrate with upcoming infinity canvas
+3. **Test Comprehensively**: Unit, integration, and end-to-end testing
+4. **Document Thoroughly**: Update this file and maintain architectural records
+5. **Performance First**: Optimize for response time and user experience

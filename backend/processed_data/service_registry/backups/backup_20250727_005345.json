@@ -1,0 +1,157 @@
+{
+  "registry_id": "3e40f35c-d88b-4db4-96cb-aea98665459d",
+  "version": "v20250727_005345",
+  "created_timestamp": "2025-07-27T00:03:30.586052",
+  "last_updated": "2025-07-27T00:53:45.763919",
+  "services": {
+    "announcement": {
+      "service_name": "announcement",
+      "service_description": "Yes, this service handles basic CRUD operations for managing announcements.",
+      "business_context": "Yes, this service handles basic CRUD operations for managing announcements.",
+      "keywords": [
+        "The keywords should include: announcement",
+        "notification",
+        "message",
+        "bulletin",
+        "alert."
+      ],
+      "synonyms": [],
+      "tier1_operations": {},
+      "tier2_operations": {
+        "ux_common_announcement_announcements_retrieve": {
+          "endpoint": {
+            "path": "/ux/common/announcement/announcements/",
+            "method": "GET",
+            "operation_id": "ux_common_announcement_announcements_retrieve",
+            "description": "HTTPMethod.GET /ux/common/announcement/announcements/",
+            "parameters": {}
+          },
+          "intent_verbs": [
+            "get"
+          ],
+          "intent_objects": [
+            "announcement"
+          ],
+          "intent_indicators": [],
+          "description": "HTTPMethod.GET operation for /ux/common/announcement/announcements/",
+          "confidence_score": 0.8
+        },
+        "ux_common_announcement_announcements_create": {
+          "endpoint": {
+            "path": "/ux/common/announcement/announcements/",
+            "method": "POST",
+            "operation_id": "ux_common_announcement_announcements_create",
+            "description": "HTTPMethod.POST /ux/common/announcement/announcements/",
+            "parameters": {}
+          },
+          "intent_verbs": [
+            "post"
+          ],
+          "intent_objects": [
+            "announcement"
+          ],
+          "intent_indicators": [],
+          "description": "HTTPMethod.POST operation for /ux/common/announcement/announcements/",
+          "confidence_score": 0.8
+        },
+        "ux_common_announcement_announcements_retrieve_2": {
+          "endpoint": {
+            "path": "/ux/common/announcement/announcements/{id}/",
+            "method": "GET",
+            "operation_id": "ux_common_announcement_announcements_retrieve_2",
+            "description": "HTTPMethod.GET /ux/common/announcement/announcements/{id}/",
+            "parameters": {}
+          },
+          "intent_verbs": [
+            "get"
+          ],
+          "intent_objects": [
+            "announcement"
+          ],
+          "intent_indicators": [],
+          "description": "HTTPMethod.GET operation for /ux/common/announcement/announcements/{id}/",
+          "confidence_score": 0.8
+        },
+        "ux_common_announcement_announcements_update": {
+          "endpoint": {
+            "path": "/ux/common/announcement/announcements/{id}/",
+            "method": "PUT",
+            "operation_id": "ux_common_announcement_announcements_update",
+            "description": "HTTPMethod.PUT /ux/common/announcement/announcements/{id}/",
+            "parameters": {}
+          },
+          "intent_verbs": [
+            "put"
+          ],
+          "intent_objects": [
+            "announcement"
+          ],
+          "intent_indicators": [],
+          "description": "HTTPMethod.PUT operation for /ux/common/announcement/announcements/{id}/",
+          "confidence_score": 0.8
+        },
+        "ux_common_announcement_announcements_destroy": {
+          "endpoint": {
+            "path": "/ux/common/announcement/announcements/{id}/",
+            "method": "DELETE",
+            "operation_id": "ux_common_announcement_announcements_destroy",
+            "description": "HTTPMethod.DELETE /ux/common/announcement/announcements/{id}/",
+            "parameters": {}
+          },
+          "intent_verbs": [
+            "delete"
+          ],
+          "intent_objects": [
+            "announcement"
+          ],
+          "intent_indicators": [],
+          "description": "HTTPMethod.DELETE operation for /ux/common/announcement/announcements/{id}/",
+          "confidence_score": 0.8
+        },
+        "ux_common_announcement_announcements_change_ancmt_retrieve": {
+          "endpoint": {
+            "path": "/ux/common/announcement/announcements/change-ancmt/",
+            "method": "GET",
+            "operation_id": "ux_common_announcement_announcements_change_ancmt_retrieve",
+            "description": "HTTPMethod.GET /ux/common/announcement/announcements/change-ancmt/",
+            "parameters": {}
+          },
+          "intent_verbs": [
+            "get"
+          ],
+          "intent_objects": [
+            "announcement"
+          ],
+          "intent_indicators": [],
+          "description": "HTTPMethod.GET operation for /ux/common/announcement/announcements/change-ancmt/",
+          "confidence_score": 0.8
+        },
+        "ux_common_announcement_announcements_options_retrieve": {
+          "endpoint": {
+            "path": "/ux/common/announcement/announcements/options/",
+            "method": "GET",
+            "operation_id": "ux_common_announcement_announcements_options_retrieve",
+            "description": "HTTPMethod.GET /ux/common/announcement/announcements/options/",
+            "parameters": {}
+          },
+          "intent_verbs": [
+            "get"
+          ],
+          "intent_objects": [
+            "announcement"
+          ],
+          "intent_indicators": [],
+          "description": "HTTPMethod.GET operation for /ux/common/announcement/announcements/options/",
+          "confidence_score": 0.8
+        }
+      },
+      "created_at": "2025-07-27 00:53:45.763733",
+      "updated_at": "2025-07-27 00:53:45.763735",
+      "version": "1.0"
+    }
+  },
+  "total_services": 1,
+  "confidence_threshold": 0.7,
+  "global_keywords": {},
+  "classification_rules": {}
+}

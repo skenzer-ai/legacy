@@ -14,6 +14,26 @@ mcp
 # FastAPI Backend
 fastapi
 uvicorn
+httpx  # For async HTTP requests and proxy
+aiohttp  # For InfraonAPIClient HTTP requests
+
+# Database & Authentication (Latest Versions - 2025)
+sqlalchemy[asyncio]==2.0.41  # Latest SQLAlchemy 2.0 with full async support
+alembic==1.16.4  # Latest Alembic with enhanced async migration support
+aiosqlite==0.20.0  # SQLite async driver for development
+asyncpg==0.30.0  # PostgreSQL async driver (for production)
+redis[hiredis]==5.2.1  # Redis with high-performance parser
+fastapi-users[sqlalchemy]==14.0.1  # Latest FastAPI Users with enhanced auth
+python-jose[cryptography]==3.3.0
+passlib[bcrypt]==1.7.4
+python-multipart==0.0.20  # For form data and file uploads (FastAPI Users compatible)
+
+# Background Tasks
+celery[redis]==5.3.4
+kombu==5.3.3
+
+# Additional Utilities
+pydantic-settings==2.1.0
 
 # Document Processing & Retrieval
 faiss-cpu
@@ -21,4 +41,5 @@ unstructured
 sentence-transformers
 scikit-learn
 nltk
-py-roaringbitmap
+pyroaring
+jsonref
